@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            background-image: url('back.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .delete-button,
+        .edit-button {
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button id="addTaskBtn">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        // JavaScript code for the todo list functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve the necessary elements
+            var taskInput = document.getElementById("taskInput");
+            var addTaskBtn = document.getElementById("addTaskBtn");
+            var taskList = document.getElementById("taskList");
+
+            // Function to create a new task item
+            function createTaskItem(taskText) {
+                var newTask = document.createElement("li");
+                newTask.classList.add("task-item");
+
+                // Create task text element
+                var taskTextElement = document.createElement("span");
+                taskTextElement.textContent = taskText;
+
+                // Create delete button
+                var deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Delete";
+                deleteBtn.classList.add("delete-button");
+                deleteBtn.addEventListener("click", function() {
+                    newTask.remove();
+                });
+
+                // Create edit button
+                var editBtn = document.createElement("button");
+                editBtn.textContent = "Edit";
+                editBtn.classList.add("edit-button");
+                editBtn.addEventListener("click", function() {
+                    var updatedTaskText = prompt("Enter updated task", newTask.textContent);
+                    if (updatedTaskText.trim() !== "") {
+                        taskTextElement.textContent = updatedTaskText;
+                    }
+                });
+
+                // Append task text and buttons to task item
+                newTask.appendChild(taskTextElement);
+                newTask.appendChild(deleteBtn);
+                newTask.appendChild(editBtn);
+                return newTask;
+            }
+
+            // Handle the add task button click event
+            addTaskBtn.addEventListener("click", function() {
+                var taskText = taskInput.value;
+
+                // Check if the input is not empty
+                if (taskText.trim() !== "") {
+                    var newTask = createTaskItem(taskText);
+                    taskList.appendChild(newTask);
+
+                    // Clear the input field
+                    taskInput.value = "";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
